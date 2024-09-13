@@ -1,12 +1,13 @@
+import 'package:chat_app/models/chat_message_entity.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubbleFile extends StatelessWidget {
-  final String message;
+  final ChatMessageEntity chatMessageEntity;
   final Alignment alignment;
   const ChatBubbleFile({
     super.key,
-    required this.message,
     required this.alignment,
+    required this.chatMessageEntity,
   });
 
   @override
@@ -14,6 +15,9 @@ class ChatBubbleFile extends StatelessWidget {
     return Align(
       alignment: alignment,
       child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.6,
+        ),
         padding: const EdgeInsets.all(24),
         margin: const EdgeInsets.all(50),
         decoration: const BoxDecoration(
@@ -28,11 +32,12 @@ class ChatBubbleFile extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              message,
+             chatMessageEntity.text,
               style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
+            if(chatMessageEntity.imageUrl != null)
             Image.network(
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/LeBron_James_%2851959977144%29_%28cropped2%29.jpg/375px-LeBron_James_%2851959977144%29_%28cropped2%29.jpg",
+              chatMessageEntity.imageUrl!,
               height: 200,
             )
           ],

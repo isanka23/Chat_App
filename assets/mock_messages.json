@@ -1,0 +1,46 @@
+[
+    {
+       "author":{
+        "userName":"lebron james"
+       },
+       "createdAt" : 1267534897,
+       "id":"1",
+       "text":"heyy",
+       "image":"https://media.cnn.com/api/v1/images/stellar/prod/230523093708-01-lebron-james-052223.jpg?c=16x9&q=h_653,w_1160,c_fill/f_webp"
+    },
+    {
+       "author":{
+        "userName":"Kyrie irving"
+       },
+       "createdAt" : 1267534897,
+       "id":"2",
+       "text":"kyrie",
+       "image":"https://cdn.britannica.com/90/257790-050-1E89C7CB/Kyrie-Irving-Dallas-Mavericks-NBA-action-2024.jpg?w=300"
+    },
+    {
+         "author":{
+          "userName":"Anthony davis"
+         },
+         "createdAt" : 1267539897,
+         "id":"3",
+         "text":"Anthony"
+    },
+    {
+        "author":{
+         "userName":"Kevin durant"
+        },
+        "createdAt" : 1261134897,
+        "id":"4",
+        "text":"kevin",
+        "image":"https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTZXzvvDlHEFnSq3c5FCfyxV6aLq_OgPhotETxS94IHSI2qq2DMVVuXSskqRTRVzD-j-RUriZqAS5FyYBo"
+    },
+    {
+        "author":{
+         "userName":"Stephen Curry"
+        },
+        "createdAt" : 1299934897,
+        "id":"5",
+        "text":"curry",
+        "image":"https://s.hdnux.com/photos/01/41/42/12/25567903/3/768x0.webp"
+    }
+]
