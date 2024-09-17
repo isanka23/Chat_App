@@ -1,5 +1,7 @@
 import 'package:chat_app/models/chat_message_entity.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatBubbleFile extends StatelessWidget {
   final ChatMessageEntity chatMessageEntity;
@@ -12,7 +14,8 @@ class ChatBubbleFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isAuthor = chatMessageEntity.author.name == "lebron james"; 
+    bool isAuthor = chatMessageEntity.author.name ==
+        context.read<AuthService>().getCurrentUser();
     return Align(
       alignment: alignment,
       child: Container(
@@ -21,8 +24,8 @@ class ChatBubbleFile extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(24),
         margin: const EdgeInsets.all(50),
-        decoration:  BoxDecoration(
-          color: isAuthor? Colors.black : Colors.purple,
+        decoration: BoxDecoration(
+          color: isAuthor ? Colors.black : Colors.purple,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -33,14 +36,14 @@ class ChatBubbleFile extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-             chatMessageEntity.text,
+              chatMessageEntity.text,
               style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
-            if(chatMessageEntity.imageUrl != null)
-            Image.network(
-              chatMessageEntity.imageUrl!,
-              height: 200,
-            )
+            if (chatMessageEntity.imageUrl != null)
+              Image.network(
+                chatMessageEntity.imageUrl!,
+                height: 200,
+              )
           ],
         ),
       ),

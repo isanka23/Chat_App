@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:chat_app/models/chat_message_entity.dart';
 import 'package:chat_app/models/image_model.dart';
 import 'package:chat_app/repo/image_repo.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/chat_bubble_file.dart';
 import 'package:chat_app/widgets/chat_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -41,9 +42,6 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
   }
 
-
-  
-
   @override
   void initState() {
     super.initState();
@@ -52,7 +50,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final username = ModalRoute.of(context)!.settings.arguments as String;
+    final username = context.watch<AuthService>().getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('Hi $username')),
@@ -60,8 +58,15 @@ class _ChatPageState extends State<ChatPage> {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              context.read<AuthService>().UpdateUserName("New name!");
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
+              context.read<AuthService>().logOutUser();
               Navigator.pushNamed(context, "/");
             },
           ),
@@ -74,7 +79,8 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 return ChatBubbleFile(
-                  alignment: _messages[index].author.name == "lebron james"
+                  alignment: _messages[index].author.name ==
+                          context.read<AuthService>().getCurrentUser()
                       ? Alignment.centerLeft
                       : Alignment.centerRight,
                   chatMessageEntity: _messages[index],

@@ -1,6 +1,8 @@
 import 'package:chat_app/models/chat_message_entity.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/picker_body.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatInput extends StatelessWidget {
   final Function(ChatMessageEntity) onSubmit;
@@ -11,21 +13,24 @@ class ChatInput extends StatelessWidget {
 
   final chatMessageController = TextEditingController();
 
-  void onSendButtonPressed() {
+  void onSendButtonPressed(BuildContext context) async {
+    String? userNameFromCache =
+        await context.read<AuthService>().getCurrentUser();
     final newChatMessage = ChatMessageEntity(
       text: chatMessageController.text,
       id: "244",
       createdAt: DateTime.now().microsecondsSinceEpoch,
-      author: Author(name: "lebron james"),
+      author: Author(name: userNameFromCache!),
     );
     onSubmit(newChatMessage);
+    chatMessageController.clear(); // Clear the input after sending
   }
 
   @override
   Widget build(BuildContext context) {
-    var screenHeigth = MediaQuery.of(context).size.height;
+    var screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      height: screenHeigth * 0.1,
+      height: screenHeight * 0.1,
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 111, 237, 76),
         borderRadius: BorderRadius.only(
@@ -38,9 +43,12 @@ class ChatInput extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              showBottomSheet(context: context, builder: (BuildContext context){
-                return NetworkImagePickerBody();
-              });
+              showBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return NetworkImagePickerBody();
+                },
+              );
             },
             icon: const Icon(Icons.add),
           ),
@@ -58,7 +66,7 @@ class ChatInput extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: onSendButtonPressed,
+            onPressed: () => onSendButtonPressed(context),
             icon: const Icon(Icons.send),
           ),
         ],
