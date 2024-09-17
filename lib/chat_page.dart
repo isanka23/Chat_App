@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:chat_app/models/chat_message_entity.dart';
+import 'package:chat_app/models/image_model.dart';
+import 'package:chat_app/repo/image_repo.dart';
 import 'package:chat_app/widgets/chat_bubble_file.dart';
 import 'package:chat_app/widgets/chat_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -33,10 +36,13 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  onMessageSent(ChatMessageEntity entity){
+  onMessageSent(ChatMessageEntity entity) {
     _messages.add(entity);
     setState(() {});
   }
+
+
+  
 
   @override
   void initState() {
@@ -48,35 +54,37 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final username = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text('Hi $username')),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                Navigator.pushNamed(context, "/");
+      appBar: AppBar(
+        title: Center(child: Text('Hi $username')),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushNamed(context, "/");
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return ChatBubbleFile(
+                  alignment: _messages[index].author.name == "lebron james"
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
+                  chatMessageEntity: _messages[index],
+                );
               },
             ),
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                  itemCount: _messages.length,
-                  itemBuilder: (context, index) {
-                    return ChatBubbleFile(
-                      alignment: _messages[index].author.name == "lebron james"
-                          ? Alignment.centerLeft
-                          : Alignment.centerRight,
-                      chatMessageEntity: _messages[index],
-                    );
-                  }),
-            ),
-            ChatInput(onSubmit: onMessageSent),
-          ],
-        ));
+          ),
+          ChatInput(onSubmit: onMessageSent),
+        ],
+      ),
+    );
   }
 }

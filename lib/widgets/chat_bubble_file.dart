@@ -12,6 +12,7 @@ class ChatBubbleFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAuthor = chatMessageEntity.author.name == "lebron james"; 
     return Align(
       alignment: alignment,
       child: Container(
@@ -20,9 +21,9 @@ class ChatBubbleFile extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(24),
         margin: const EdgeInsets.all(50),
-        decoration: const BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.only(
+        decoration:  BoxDecoration(
+          color: isAuthor? Colors.black : Colors.purple,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
             bottomLeft: Radius.circular(20),
